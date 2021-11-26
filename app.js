@@ -3,15 +3,24 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+let cors = require('cors');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var app = express();
 
+app.use(cors({
+  origin: ['http://localhost:8080'], // 允许这个域访问
+  methods: ['GET', 'POST'], // 允许这些请求
+  allowHeaders: ['Content-Type', 'Authorization']
+}));
+
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+// app.set('views', path.join(__dirname, 'views'));
+// app.set('view engine', 'jade');
+// 不用默认jade 用vue
+app.use(express.static(path.join(__dirname, '../vue/dist')));
 
 app.use(logger('dev'));
 app.use(express.json());
